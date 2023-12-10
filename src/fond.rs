@@ -10,6 +10,9 @@ use std::io::Cursor;
 
 use crate::URL;
 
+const PADDING_X: u32 = 0;
+const PADDING_Y: u32 = 0;
+
 pub fn fond(path: Option<String>) {
     let path = path.unwrap_or("ben.png".to_string());
 
@@ -23,8 +26,14 @@ pub fn fond(path: Option<String>) {
                 Ok(img) => {
                     for (x, y, pixel) in img.pixels() {
                         let p = pixel.0;
-                        let string =
-                            format!("PX {} {} {:02x}{:02x}{:02x}\n", x, y, p[0], p[1], p[2]);
+                        let string = format!(
+                            "PX {} {} {:02x}{:02x}{:02x}\n",
+                            x + PADDING_X,
+                            y + PADDING_Y,
+                            p[0],
+                            p[1],
+                            p[2]
+                        );
                         let buf = string.as_bytes();
 
                         let result = stream.write(&buf);
